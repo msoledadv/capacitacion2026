@@ -1,182 +1,68 @@
-/* RESET TOTAL */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* RESET */
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#f4f6f9;color:#222;display:flex;min-height:100vh;overflow-x:hidden}
+
+/* BOTON MENU MOVIL */
+.btn-menu{display:none;position:fixed;top:10px;left:10px;z-index:1000;background:#0d47a1;color:#fff;border:none;padding:10px 14px;border-radius:8px;font-weight:800;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.btn-close{display:none;background:none;border:none;font-size:20px;cursor:pointer;position:absolute;top:10px;right:10px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:900}
+
+/* SIDEBAR */
+.sidebar{width:300px;min-width:300px;background:#fff;border-right:1px solid #ddd;padding:20px;height:100vh;overflow-y:auto;position:sticky;top:0;z-index:950}
+.logo-container{text-align:center;padding:6px 0 16px;border-bottom:1px solid #eee;margin-bottom:14px;position:relative}
+.logo-container img{max-width:100px;max-height:80px}
+.logo-container h2{font-size:15px;line-height:1.2;margin-top:8px;color:#0d2a54;font-weight:800}
+.filtros-wrapper{display:flex;flex-direction:column;gap:12px}
+.f-item{display:flex;flex-direction:column;gap:4px}
+.f-item label{font-size:10.5px;font-weight:800;color:#444;text-transform:uppercase;letter-spacing:.3px}
+.f-item select,.f-item input{width:100%;padding:8px 10px;border:1px solid #cfd8dc;border-radius:8px;font-size:13px;background:#fff}
+.btn-clean{margin-top:6px;background:#d32f2f;color:#fff;border:none;border-radius:8px;padding:11px;font-weight:800;cursor:pointer}
+.btn-clean:hover{background:#b71c1c}
+
+/* MAIN */
+.main-content{flex:1;min-width:0;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.alert-importante{background:#fff3cd;color:#664d03;border:1px solid #ffe69c;padding:12px 14px;border-radius:10px;font-size:12.5px;line-height:1.5}
+.status-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px;font-weight:700}
+#contador{background:#fff;padding:6px 12px;border-radius:20px;border:1px solid #e0e0e0}
+#ultimaActualizacion{background:#e3f2fd;color:#0d47a1;padding:6px 12px;border-radius:20px;font-size:12px}
+
+.table-container{background:#fff;border-radius:12px;border:1px solid #e0e0e0;overflow:auto;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+table{width:100%;border-collapse:collapse;min-width:1350px}
+th{background:#0d47a1;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:12px 10px;text-align:left;white-space:nowrap;position:sticky;top:0;z-index:1}
+td{padding:10px 10px;font-size:12.5px;border-bottom:1px solid #eef1f4;vertical-align:top}
+td small{color:#555;font-size:11px;display:block}
+tr:hover{background:#f5f8ff}
+.badge{padding:5px 10px;border-radius:20px;font-size:10.5px;font-weight:800;white-space:nowrap;display:inline-block;min-width:105px;text-align:center}
+.badge.cumplido{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9}
+.badge.proceso{background:#fff8e1;color:#ef6c00;border:1px solid #ffecb3}
+.badge.pendiente{background:#ffebee;color:#c62828;border:1px solid #ffcdd2}
+
+/* RESPONSIVE - TABLET */
+@media (max-width: 1024px){
+  .sidebar{width:260px;min-width:260px}
+  table{min-width:1100px}
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    min-height: 100vh;
-    background-color: #f0f2f5;
-    overflow-x: hidden;
-}
-
-/* SIDEBAR IZQUIERDA */
-.navbar-filtros {
-    width: 300px;
-    min-width: 300px;
-    background: #ffffff;
-    border-right: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    height: 100vh;
-    flex-shrink: 0;
-    overflow-y: auto;
-    position: sticky;
-    top: 0;
-}
-
-/* LOGO */
-.logo-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-.logo-container img {
-    max-width: 100%;
-    height: auto;
-    max-height: 80px;
-}
-.logo-container h2 {
-    font-size: 15px;
-    line-height: 1.2;
-    margin-top: 10px;
-    color: #0d2a54;
-    font-weight: 800;
-}
-
-/* FILTROS */
-.filtros-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.f-item {
-    display: flex;
-    flex-direction: column;
-}
-.f-item label {
-    font-size: 11px;
-    font-weight: bold;
-    color: #444;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-}
-select, input {
-    height: 35px;
-    padding: 0 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 13px;
-    width: 100%;
-    background-color: #fff;
-}
-.btn-clean {
-    margin-top: 10px;
-    height: 35px;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.btn-clean:hover {
-    background: #c82333;
-}
-
-/* CONTENIDO DERECHA */
-.main-content {
-    flex: 1;
-    min-width: 0;
-    padding: 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: calc(100% - 300px);
-}
-
-.status-bar {
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #333;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
-
-.table-container {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow-x: auto;
-    max-width: 100%;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 1400px;
-}
-
-th {
-    background: #0056b3;
-    color: white;
-    padding: 12px;
-    text-align: left;
-    font-size: 12px;
-    position: sticky;
-    top: 0;
-    white-space: nowrap;
-    z-index: 1;
-}
-
-td {
-    padding: 10px 10px;
-    border-bottom: 1px solid #eee;
-    font-size: 12.5px;
-    vertical-align: middle;
-}
-
-td:last-child {
-    width: 140px;
-    text-align: center;
-}
-
-.badge {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 50px;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    white-space: nowrap;
-    letter-spacing: 0.5px;
-    min-width: 115px;
-    text-align: center;
-}
-
-.cumplido {
-    background-color: #d4edda !important;
-    color: #155724 !important;
-    border: 1px solid #c3e6cb;
-}
-.proceso {
-    background-color: #fff3cd !important;
-    color: #856404 !important;
-    border: 1px solid #ffeeba;
-}
-.pendiente {
-    background-color: #f8d7da !important;
-    color: #721c24 !important;
-    border: 1px solid #f5c6cb;
-}
-
-@media (max-width: 900px) {
-  body { flex-direction: column; }
-  .navbar-filtros { width: 100%; min-width: 100%; height: auto; position: relative; }
-  .main-content { width: 100%; }
+/* RESPONSIVE - MOVIL */
+@media (max-width: 768px){
+  html{font-size:15px}
+  body{flex-direction:column}
+  .btn-menu{display:block}
+  .btn-close{display:block}
+  .sidebar{position:fixed;left:-100%;top:0;width:85%;min-width:85%;max-width:340px;height:100dvh;transition:left .3s ease;box-shadow:4px 0 20px rgba(0,0,0,.2)}
+  .sidebar.open{left:0}
+  .overlay.show{display:block}
+  .main-content{width:100%;padding:60px 10px 20px;min-width:100%}
+  .table-container{border-radius:10px}
+  table{min-width:100%;display:block}
+  thead{display:none}
+  tbody{display:flex;flex-direction:column;gap:10px;padding:10px}
+  tbody tr{display:flex;flex-direction:column;background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:12px;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+  tbody td{border:none;padding:4px 0;display:flex;justify-content:space-between;gap:12px;font-size:13px}
+  tbody td::before{content:attr(data-label);font-weight:800;font-size:11px;text-transform:uppercase;color:#666;flex-shrink:0;max-width:45%;text-align:left}
+  tbody td:last-child{justify-content:center;padding-top:8px}
+  tbody td:last-child::before{display:none}
+  /* Legajo destacado */
+  tbody td[data-label="Legajo"]{font-size:15px;font-weight:900;color:#0d47a1;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:4px}
 }
