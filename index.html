@@ -8,29 +8,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body>
-    <header class="navbar-filtros">
+    <button id="btnMenu" class="btn-menu" aria-label="Filtros">☰ Filtros</button>
+    <aside class="sidebar" id="sidebar">
         <div class="logo-container">
-            <img src="logo capa.png" alt="Logo">
-            <h2>DIRECCIÓN DE CAPACITACION 2026</h2>
+            <img src="logo%20capa.png" alt="Logo" onerror="this.style.display='none'">
+            <h2>DIRECCIÓN DE<br>CAPACITACION 2026</h2>
+            <button id="btnCloseMenu" class="btn-close">✕</button>
         </div>
         <div class="filtros-wrapper">
-            <div class="f-item"><label>Filtrar por Secretaría</label><select id="selectSecretaria"><option value="">Todas las Secretarías</option></select></div>
-            <div class="f-item"><label>Filtrar por Oficina</label><select id="selectOficina"><option value="">Todas las Oficinas</option></select></div>
-            <div class="f-item"><label>Oficina de Pago</label><select id="selectPago"><option value="">Todas las Oficinas de Pago</option></select></div>
-            <div class="f-item"><label>Cargo / Escalafón</label><select id="selectCargo"><option value="">Todos los Cargos</option></select></div>
+            <div class="f-item"><label>Filtrar por Secretaría</label><select id="selectSecretaria"><option value="">Todas</option></select></div>
+            <div class="f-item"><label>Filtrar por Oficina</label><select id="selectOficina"><option value="">Todas</option></select></div>
+            <div class="f-item"><label>Oficina de Pago</label><select id="selectPago"><option value="">Todas</option></select></div>
+            <div class="f-item"><label>Cargo / Escalafón</label><select id="selectCargo"><option value="">Todos</option></select></div>
             <div class="f-item"><label>Nombre del Agente</label><input type="text" id="inputNombre" placeholder="Buscar..."></div>
             <div class="f-item"><label>Número de Legajo</label><input type="text" id="inputLegajo" placeholder="Buscar..."></div>
             <div class="f-item"><label>Estado</label><select id="selectEstado"><option value="">Todos</option><option value="COMPLETO">✅ COMPLETO</option><option value="EN PROCESO">⏳ EN PROCESO</option><option value="SIN INICIAR">🚨 SIN INICIAR</option></select></div>
-            <button id="btnLimpiar" class="btn-clean">Limpiar</button>
+            <button id="btnLimpiar" class="btn-clean">Limpiar filtros</button>
         </div>
-    </header>
+    </aside>
+    <div class="overlay" id="overlay"></div>
     <main class="main-content">
-        <div style="background-color:#fff3cd;color:#856404;border:1px solid #ffeeba;padding:12px 15px;border-radius:6px;margin:15px;font-size:12px;line-height:1.5;">
+        <div class="alert-importante">
             <strong>⚠ Importante:</strong> Los créditos se contabilizan a partir del <strong>01/04/2024</strong> (los datos anteriores son estrictamente históricos). Al ser un sistema dinámico, la información se presenta sujeta a revisión y puede contener omisiones involuntarias o errores en proceso de actualización.
         </div>
-        <div class="status-bar" style="padding:0 15px 10px;">
+        <div class="status-bar">
             <span id="contador">Cargando Libro2.csv...</span>
-<span id="ultimaActualizacion" style="margin-left:15px; background:#e3f2fd; color:#0d47a1; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;"></span></div>
+            <span id="ultimaActualizacion"></span>
+        </div>
         <div class="table-container">
             <table id="tablaEmpleados">
                 <thead><tr><th>Legajo</th><th>Agente / Oficina</th><th>SECRETARÍA</th><th>Oficina de Pago</th><th>Cargo</th><th>Capacitaciones</th><th>Créditos</th><th>Objetivo</th><th>Faltan</th><th>Estado</th></tr></thead>
