@@ -158,5 +158,3 @@ function renderTable(data){
   const cont = document.getElementById('contador');
   if(cont) cont.innerText=`Personal total filtrado: ${data.length}`;
 }
-  if(cont) cont.innerText=`Personal total filtrado: ${data.length}`;
-}
