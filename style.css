@@ -171,3 +171,26 @@ td:last-child {
     line-height: 1.4;
     color: #555;
 }
+/* FIX para GitHub Pages */
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+.contenedor-principal {
+  display: flex;
+  width: 100%;
+  max-width: 100vw;
+}
+.filtros {
+  min-width: 260px;
+  max-width: 260px;
+}
+.tabla-contenedor {
+  flex: 1;
+  overflow-x: auto; /* esto hace que la tabla tenga scroll horizontal y no se corte */
+  width: calc(100vw - 280px);
+}
+table {
+  min-width: 1300px; /* para que no se aplaste */
+  width: 100%;
+}
