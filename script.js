@@ -1,18 +1,46 @@
 let datosAgrupados = [];
 
-Papa.parse("./Libro2.csv?v=" + Date.now(), {
+Papa.parse("./Libro2.csv", {
     download: true,
     header: true,
     delimiter: ";",
     skipEmptyLines: true,
-    transformHeader: h => h.trim().replace(/^\uFEFF/, ''),
     complete: function(results) {
-        procesarDatos(results.data);
+        // limpia BOM del header si viene con \uFEFF
+        const cleanData = results.data.map(row=>{
+            const newRow={};
+            Object.keys(row).forEach(k=>{
+                const cleanKey = k.trim().replace(/^\uFEFF/, '');
+                newRow[cleanKey]=row[k];
+            });
+            return newRow;
+        });
+        procesarDatos(cleanData);
     },
     error: function(){
         document.getElementById('contador').innerText = "❌ No se encontró ./Libro2.csv";
     }
 });
+
+async function mostrarFechaActualizacionCSV(){
+    const el = document.getElementById('ultimaActualizacion');
+    if(!el) return;
+    // Si estás en VS Code local, avisa
+    if(window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"){
+        el.innerText = "👀 Modo local en VS - la fecha real se ve al subir a GitHub";
+        return;
+    }
+    try{
+        const resp = await fetch('https://api.github.com/repos/msoledadv/capacitacion2026/commits?path=Libro2.csv&page=1&per_page=1');
+        const commits = await resp.json();
+        if(commits && commits[0]){
+            const fecha = new Date(commits[0].commit.committer.date);
+            el.innerText = `📅 Última actualización del CSV: ${fecha.toLocaleDateString('es-AR')} ${fecha.toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'})}`;
+        }
+    }catch(e){
+        el.innerText = "📅 CSV cargado";
+    }
+}
 
 function procesarDatos(filas){
     const mapa=new Map(); 
@@ -74,6 +102,7 @@ function procesarDatos(filas){
     datosAgrupados=Array.from(mapa.values());
     poblar(); 
     renderTable(datosAgrupados);
+    mostrarFechaActualizacionCSV();
 }
 
 function poblar(){
@@ -113,7 +142,7 @@ function filtrar(){
 function renderTable(data){
   const tbody=document.getElementById('tbody'); 
   if(!tbody) return;
-  tbody.innerHTML='';
+  let html = "";
   data.forEach(p=>{
     const faltan=p.SALDO_RESTANTE<0?0:p.SALDO_RESTANTE; let clase="pendiente",texto="🚨 SIN INICIAR"; if(p.CREDITOS>=p.OBJETIVO&&p.OBJETIVO>0){clase="cumplido"; texto="✅ COMPLETO";} else if(p.CREDITOS>0){clase="proceso"; texto="⏳ EN PROCESO";}
     let lista = p.CURSOS.map(c=>{
@@ -123,8 +152,11 @@ function renderTable(data){
             return `• ${c.nombre} (${c.fecha})`;
         }
     }).join('<br>') || 'SIN CAPACITACIONES';
-    tbody.innerHTML+=`<tr><td style="color:#0056b3;font-weight:bold;">${p.LEGAJO}</td><td><strong>${p.NOMBRE}</strong><br><small>${p.OFICINA}</small></td><td><small style="color:#0d47a1;font-weight:700;">${p.SECRETARIA}</small></td><td><small>${p.OFICINA_PAGO}</small></td><td><small>${p.CARGO}</small></td><td style="font-size:11px;">${lista}</td><td style="text-align:center;font-weight:bold;color:#0056b3;">${p.CREDITOS}</td><td style="text-align:center;">${p.OBJETIVO}</td><td style="text-align:center;font-weight:bold;color:${faltan>0?'#b45309':'green'}">${faltan}</td><td><span class="badge ${clase}">${texto}</span></td></tr>`;
+    html+=`<tr><td style="color:#0056b3;font-weight:bold;">${p.LEGAJO}</td><td><strong>${p.NOMBRE}</strong><br><small>${p.OFICINA}</small></td><td><small style="color:#0d47a1;font-weight:700;">${p.SECRETARIA}</small></td><td><small>${p.OFICINA_PAGO}</small></td><td><small>${p.CARGO}</small></td><td style="font-size:11px;">${lista}</td><td style="text-align:center;font-weight:bold;color:#0056b3;">${p.CREDITOS}</td><td style="text-align:center;">${p.OBJETIVO}</td><td style="text-align:center;font-weight:bold;color:${faltan>0?'#b45309':'green'}">${faltan}</td><td><span class="badge ${clase}">${texto}</span></td></tr>`;
   });
+  tbody.innerHTML = html;
   const cont = document.getElementById('contador');
+  if(cont) cont.innerText=`Personal total filtrado: ${data.length}`;
+}
   if(cont) cont.innerText=`Personal total filtrado: ${data.length}`;
 }
